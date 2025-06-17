@@ -14,6 +14,15 @@ def index(request):
         output += "<br><br>"
     return HttpResponse(output)
 
+def html_index(request):
+    latest_question_list = Question.objects.order_by('-pub_date')[:5]
+    answer_list = Choice.objects.all()
+    context = {
+        "latest_question_list": latest_question_list,
+        "answer_list": answer_list
+    }
+    return render(request, "index.html", context)
+
 def profile(request):
     return HttpResponse("Hello, I Write other text here. You're at the polls profile.")
 

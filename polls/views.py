@@ -4,7 +4,14 @@ from .models import Question, Choice
 
 def index(request):
     latest_question_list = Question.objects.order_by('-pub_date')[:5]
-    output = '<br>'.join([q.question_text for q in latest_question_list])
+    output = ""
+    for q in latest_question_list:
+        output += f"{q.question_text}<br>"
+        #answer list
+        answer_list = Choice.objects.filter(question=q)
+        list_answer = ", ".join([a.choice_text for a in answer_list])
+        output += f"Pilihan: {list_answer}"
+        output += "<br><br>"
     return HttpResponse(output)
 
 def profile(request):
